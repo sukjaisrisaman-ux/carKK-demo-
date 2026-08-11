@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zeekr 009 — Leasing vs Hire Purchase</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--navy:#0f2a43;--blue:#1e6fb8;--teal:#0e8f7e;--amber:#c47f17;--red:#b3403a;--bg:#f4f6f9;--card:#ffffff;--line:#e3e8ee;--txt:#22303e;--mut:#64748b;}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI','Sarabun',Tahoma,sans-serif;}
+  body{background:var(--bg);color:var(--txt);padding:24px;max-width:1150px;margin:0 auto;}
+  h1{font-size:22px;color:var(--navy);}
+  .sub{color:var(--mut);font-size:13px;margin:4px 0 18px;}
+  .verdict{background:linear-gradient(135deg,#0e8f7e,#0b6e61);color:#fff;border-radius:14px;padding:20px 24px;margin-bottom:18px;}
+  .verdict h2{font-size:20px;margin-bottom:6px;}
+  .verdict p{font-size:14px;opacity:.95;}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:18px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .kpi .lb{font-size:12px;color:var(--mut);}
+  .kpi .v{font-size:21px;font-weight:700;color:var(--navy);margin-top:4px;}
+  .kpi .d{font-size:12px;margin-top:4px;}
+  .good{color:var(--teal);} .bad{color:var(--red);}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  @media(max-width:820px){.grid{grid-template-columns:1fr;}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;}
+  .card h3{font-size:15px;color:var(--navy);margin-bottom:12px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th{background:#eef2f7;color:var(--navy);text-align:right;padding:8px 10px;font-size:12.5px;}
+  th:first-child,td:first-child{text-align:left;}
+  td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;}
+  tr.hl td{background:#f0faf7;font-weight:700;}
+  tr.neg td{color:var(--red);}
+  .note{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.6;}
+  .chartbox{position:relative;height:280px;}
+  .badge{display:inline-block;background:#fff;color:var(--teal);border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700;margin-left:8px;vertical-align:middle;}
+  ul{padding-left:18px;font-size:13.5px;line-height:1.8;}
+</style>
+</head>
+<body>
+
+<h1>เปรียบเทียบการซื้อรถ Zeekr 009 — Financial Lease vs Hire Purchase</h1>
+<div class="sub">ราคารถ 3,129,000 บาท (รวม VAT) · ดาวน์/เงินประกัน 10% = 312,900 · ยอดจัด 2,816,100 · ผ่อน 48 งวด · ข้อเสนอลิสซิ่งกสิกรไทย · สมมติฐานภาษีเงินได้นิติบุคคล 20%</div>
+
+<div class="verdict">
+  <h2>คำตอบ: เลือก Financial Lease (Leasing) <span class="badge">ประหยัดสุทธิ ~253,012 บาท</span></h2>
+  <p>Leasing ชนะทั้ง 2 ด้าน — ด้านการเงิน: ดอกเบี้ยถูกกว่า 44,832 บาท และค่างวดต่ำกว่าเดือนละ 934 บาท · ด้านภาษีสรรพากร: หักรายจ่ายได้มากกว่าถึง 1,040,900 บาท คิดเป็นภาษีที่ประหยัดเพิ่ม 208,180 บาท</p>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="lb">ดอกเบี้ยรวม — Leasing</div><div class="v">370,860</div><div class="d good">Effective 6.20% ต่อปี</div></div>
+  <div class="kpi"><div class="lb">ดอกเบี้ยรวม — Hire Purchase</div><div class="v">415,692</div><div class="d bad">Flat 3.69% ≈ Effective ~6.9%</div></div>
+  <div class="kpi"><div class="lb">หักภาษีได้ — Leasing</div><div class="v">2,040,900</div><div class="d good">ค่าเช่า 36,000/ด. ×48 + ค่าซาก</div></div>
+  <div class="kpi"><div class="lb">หักภาษีได้ — Hire Purchase</div><div class="v">1,000,000</div><div class="d bad">ติดเพดานค่าเสื่อมรถยนต์นั่ง</div></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>1) ด้านการเงิน — เงินสดในกระเป๋า (บาท)</h3>
+    <table>
+      <tr><th>รายการ</th><th>Leasing</th><th>Hire Purchase</th></tr>
+      <tr><td>จ่ายวันแรก (ดาวน์/เงินประกัน 10%)</td><td>312,900</td><td>312,900</td></tr>
+      <tr><td>ค่างวดต่อเดือน (รวม VAT)</td><td>66,395</td><td>67,329</td></tr>
+      <tr><td>ค่างวดรวม 48 งวด</td><td>3,186,960</td><td>3,231,792</td></tr>
+      <tr><td>ซื้อซากงวดสุดท้าย (หักกลบเงินประกัน)</td><td>0</td><td>—</td></tr>
+      <tr class="hl"><td>เงินสดจ่ายรวมตลอดสัญญา</td><td>3,499,860</td><td>3,544,692</td></tr>
+      <tr class="hl"><td>ดอกเบี้ยรวม</td><td>370,860</td><td>415,692</td></tr>
+    </table>
+    <div class="note">Leasing จ่ายเงินสดน้อยกว่า 44,832 บาท (เท่ากับส่วนต่างดอกเบี้ย) — แม้ HP โฆษณา Flat 3.69% แต่เทียบเป็นอัตราแท้จริง (effective) ≈ 6.9% สูงกว่า Leasing ที่ 6.20%</div>
+  </div>
+  <div class="card">
+    <h3>2) ด้านภาษีสรรพากร — รายจ่ายที่หักได้ (บาท)</h3>
+    <table>
+      <tr><th>รายการ</th><th>Leasing</th><th>Hire Purchase</th></tr>
+      <tr><td>ค่าเช่าหักได้ (เพดาน 36,000/เดือน ×48)</td><td>1,728,000</td><td>—</td></tr>
+      <tr><td>ค่าเสื่อมซาก 312,900 (หักได้เต็ม)</td><td>312,900</td><td>—</td></tr>
+      <tr><td>ค่าเสื่อมราคา (เพดานรถยนต์นั่ง 1 ล้าน)</td><td>—</td><td>1,000,000</td></tr>
+      <tr class="neg"><td>รายจ่ายต้องห้าม (หักไม่ได้เลย)</td><td>1,458,960</td><td>2,544,692</td></tr>
+      <tr class="hl"><td>รวมหักภาษีได้</td><td>2,040,900</td><td>1,000,000</td></tr>
+      <tr class="hl"><td>ภาษีที่ประหยัด (Tax Shield 20%)</td><td>408,180</td><td>200,000</td></tr>
+    </table>
+    <div class="note">รถยนต์นั่ง ≤10 ที่นั่ง: ภาษีซื้อ (VAT) ขอคืนไม่ได้ทั้ง 2 วิธี · HP ติดเพดานต้นทุนค่าเสื่อม 1 ล้านบาท (พ.ร.ฎ. 315) ส่วนเกิน 2.54 ล้านหักไม่ได้ตลอดไป · Leasing หักค่าเช่าได้ 36,000/เดือน (รวม VAT) และซื้อซาก 312,900 มาตั้งเป็นทรัพย์สินหักค่าเสื่อมต่อได้เต็มเพราะต่ำกว่าเพดาน</div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>ต้นทุนสุทธิที่แท้จริงหลังภาษี</h3>
+    <div class="chartbox"><canvas id="netChart"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>สรุปต้นทุนสุทธิ (บาท)</h3>
+    <table>
+      <tr><th>รายการ</th><th>Leasing</th><th>Hire Purchase</th></tr>
+      <tr><td>เงินสดจ่ายรวม</td><td>3,499,860</td><td>3,544,692</td></tr>
+      <tr><td>หัก: ภาษีที่ประหยัดได้</td><td>(408,180)</td><td>(200,000)</td></tr>
+      <tr class="hl"><td>ต้นทุนสุทธิหลังภาษี</td><td>3,091,680</td><td>3,344,692</td></tr>
+    </table>
+    <div class="note"><b>Leasing ถูกกว่า 253,012 บาท</b> = ดอกเบี้ยที่ประหยัด 44,832 + ภาษีที่ประหยัดเพิ่ม 208,180</div>
+    <h3 style="margin-top:16px">ถ้าดอกเบี้ยเปลี่ยน (Sensitivity)</h3>
+    <div class="note" style="margin-top:4px">ข้อได้เปรียบภาษีของ Leasing (~208,180 บาท) ไม่ขึ้นกับอัตราดอกเบี้ย ดังนั้นต่อให้ดอกเบี้ย Leasing แพงขึ้นจนดอกเบี้ยรวมสูงกว่า HP ได้ถึง ~208,000 บาท (effective ขึ้นไปราว 9–10%) Leasing ก็ยังชนะหลังภาษี — และถ้าดอกเบี้ยถูกลงทั้งคู่ Leasing ยิ่งทิ้งห่าง เพราะส่วนต่างภาษีคงที่</div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h3>เหตุผลประกอบการตัดสินใจ (มุมเจ้าของบริษัท)</h3>
+  <ul>
+    <li><b>การเงิน:</b> Leasing ดอกเบี้ยถูกกว่า (6.20% vs ~6.9% effective) ค่างวดต่ำกว่า 934 บาท/เดือน และเงินประกัน 10% ได้หักกลบค่าซากตอนจบสัญญา — รถตกเป็นของบริษัทเหมือนกัน</li>
+    <li><b>ภาษี:</b> รถราคาเกิน 1 ล้านมาก (3.13 ล้าน) ทำให้ HP เสียเปรียบหนัก — หักได้แค่ 1 ล้าน ส่วน Leasing หักได้รวม ~2.04 ล้าน นี่คือจุดชี้ขาดของดีลนี้</li>
+    <li><b>งบการเงิน:</b> ทางบัญชี (TFRS 16) ทั้งคู่ขึ้นสินทรัพย์/หนี้สินใกล้เคียงกัน ต่างกันที่ภาษีสรรพากรเป็นหลัก</li>
+    <li><b>ข้อควรระวัง:</b> สัญญา Leasing ต้องเป็น "สิทธิเลือกซื้อซาก" ไม่ใช่ข้อผูกมัดโอนกรรมสิทธิ์ มิฉะนั้นสรรพากรอาจตีความเป็นเช่าซื้อ · ควรให้ผู้สอบบัญชี/ที่ปรึกษาภาษียืนยันก่อนเซ็นสัญญา</li>
+  </ul>
+</div>
+
+<div class="sub">จัดทำจากเอกสารข้อเสนอลิสซิ่งกสิกรไทย · อัตราภาษีนิติบุคคล 20% · รถยนต์นั่งไม่เกิน 10 ที่นั่ง (พ.ร.ฎ. ฉบับที่ 315 พ.ศ. 2540) · ตัวเลขเพื่อประกอบการตัดสินใจ ไม่ใช่คำแนะนำทางภาษีอย่างเป็นทางการ</div>
+
+<script>
+new Chart(document.getElementById('netChart'),{
+  type:'bar',
+  data:{
+    labels:['Leasing','Hire Purchase'],
+    datasets:[
+      {label:'ต้นทุนสุทธิหลังภาษี',data:[3091680,3344692],backgroundColor:['#0e8f7e','#b3403a'],borderRadius:6},
+      {label:'ภาษีที่ประหยัดได้',data:[408180,200000],backgroundColor:['#9ad6cb','#e0b3b0'],borderRadius:6}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:v=>(v/1000000).toFixed(1)+' ลบ.'}}},
+    plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString()+' บาท'}}}
+  }
+});
+</script>
+</body>
+</html>
